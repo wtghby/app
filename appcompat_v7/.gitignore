@@ -1,0 +1,10 @@
+*.class
+bin
+gen
+out
+
+# Package Files #
+#*.jar
+*.war
+*.ear
+*.svn

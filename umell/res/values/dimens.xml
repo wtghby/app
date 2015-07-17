@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_bar_text_size">22.0sp</dimen>
+    <dimen name="menu_item_height">45.0dip</dimen>
+    <dimen name="menu_item_padding_left">10.0dip</dimen>
+    <dimen name="menu_item_padding_right">10.0dip</dimen>
+    <dimen name="menu_item_padding_max_top">20.0dip</dimen>
+    <dimen name="menu_item_padding_min_top">2.0dip</dimen>
+</resources>
