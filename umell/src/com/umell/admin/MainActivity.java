@@ -30,13 +30,15 @@ public class MainActivity extends BaseViewPagerActivity {
 
 	private MenuItemView consumeQrcode;
 	
+	private static final int REQUEST_QRCODE_CODE = 0x10;
+	
 	private void init() {
 		this.mTabMenuView = ((TabMenuView) findViewById(R.id.main_tab_menu));
 		this.mTitleBar = ((TitleBar) findViewById(R.id.title_bar));
 		this.mMenuNames = getResources().getStringArray(R.array.main_menu_item);
 		initDrawables(this.mMenuNames.length);
 		for (int i = 0;i<mMenuNames.length; i++) {
-			this.mTabMenuView.initItemTopDrawable(i, this.draws[i], this.mMenuNames[i]);
+			this.mTabMenuView.initItemTopDrawable(i, this.draws[i]);
 			
 		}
 		this.mTitleBar.getTitle().setText(this.mMenuNames[0]);
@@ -83,7 +85,11 @@ public class MainActivity extends BaseViewPagerActivity {
 		super.onCreate(paramBundle);
 		init();
 	}
-
+	
+	protected void setLayout() {
+		setContentView(R.layout.main_layout);
+	}
+	
 	public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent) {
 		if ((paramInt == KeyEvent.KEYCODE_BACK) && (paramKeyEvent.getAction() == KeyEvent.ACTION_DOWN)) {
 			if (System.currentTimeMillis() - this.firstTime < 2000L) {
@@ -98,8 +104,22 @@ public class MainActivity extends BaseViewPagerActivity {
 		return super.onKeyDown(paramInt, paramKeyEvent);
 	}
 
-	protected void setLayout() {
-		setContentView(R.layout.main_layout);
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if(data != null && resultCode == RESULT_OK){
+			switch (requestCode) {
+			case REQUEST_QRCODE_CODE:
+				String result = data.getStringExtra(Intents.Scan.RESULT);
+				ToastUtil.showToast(getBaseContext(), result);
+				break;
+
+			default:
+				break;
+			}
+		}
+		
 	}
 
 	private class OnPageChange extends OnPageChangeWithDirection {
@@ -135,7 +155,7 @@ public class MainActivity extends BaseViewPagerActivity {
 				consumeQr.putExtra(Intents.Scan.WIDTH, 800);
 				consumeQr.putExtra(Intents.Scan.HEIGHT, 600);
 				consumeQr.setClass(MainActivity.this, CaptureActivity.class);
-		        startActivity(consumeQr);
+		        startActivityForResult(consumeQr,REQUEST_QRCODE_CODE);
 		        
 				break;
 

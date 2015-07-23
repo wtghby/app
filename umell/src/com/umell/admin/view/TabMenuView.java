@@ -17,6 +17,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+/**
+ * 主页面底部的导航栏view
+ * 
+ * @author hui
+ * 
+ */
 @SuppressLint({ "NewApi" })
 public class TabMenuView extends LinearLayout {
 	private OnJazzyViewPagerItemSelectedListener listener;
@@ -67,8 +73,6 @@ public class TabMenuView extends LinearLayout {
 	private void initViews() {
 		if (this.size < 1)
 			return;
-		// while (true) {
-		// return;
 		this.mButtons = new ArrayList<Button>();
 		OnClick localOnClick = new OnClick();
 		for (int i = 0; i < this.size; i++) {
@@ -77,7 +81,6 @@ public class TabMenuView extends LinearLayout {
 			addView(localButton);
 			this.mButtons.add(localButton);
 		}
-		// }
 	}
 
 	private void selectTwoItem(int paramInt1, int paramInt2) {
@@ -96,38 +99,59 @@ public class TabMenuView extends LinearLayout {
 			((Button) this.mButtons.get(paramInt)).setAlpha(paramFloat);
 	}
 
-	public void initItemTopDrawable(int paramInt1, int paramInt2, CharSequence paramCharSequence) {
-		if (paramInt1 < this.mButtons.size()) {
-			((Button) this.mButtons.get(paramInt1)).setTag(Integer.valueOf(paramInt2));
-			// if (!TextUtils.isEmpty(paramCharSequence))
-			// ((Button) this.mButtons.get(paramInt1))
-			// .setText(paramCharSequence);
-			Drawable localDrawable = getResources().getDrawable(paramInt2);
+	/**
+	 * 初始化导航栏的图标显示
+	 * 
+	 * @param position
+	 *            item位置
+	 * @param drawableId
+	 *            显示的图标资源，建议为selector
+	 */
+	public void initItemTopDrawable(int position, int drawableId) {
+		if (position < this.mButtons.size()) {
+			((Button) this.mButtons.get(position)).setTag(Integer.valueOf(drawableId));
+			Drawable localDrawable = getResources().getDrawable(drawableId);
 			localDrawable.setBounds(0, 0, localDrawable.getMinimumWidth(), localDrawable.getMinimumHeight());
-			((Button) this.mButtons.get(paramInt1)).setCompoundDrawables(null, localDrawable, null, null);
+			((Button) this.mButtons.get(position)).setCompoundDrawables(null, localDrawable, null, null);
 		}
 	}
 
-	public void scrollItem(int paramInt, float paramFloat, ViewPagerDirection paramViewPagerDirection) {
+	/**
+	 * viewpager滑动的时候，控件的图标的渐变显示
+	 * 
+	 * @param position
+	 *            当前页面的位置
+	 * @param alpha
+	 *            当前页面偏移量
+	 * @param paramViewPagerDirection
+	 *            滑动方向
+	 */
+	public void scrollItem(int position, float alpha, ViewPagerDirection paramViewPagerDirection) {
 		if (paramViewPagerDirection == ViewPagerDirection.LEFT)
-			if (paramInt > -1) {
-				selectTwoItem(paramInt, paramInt + 1);
-				setItemAlpha(paramInt + 1, paramFloat);
-				setItemAlpha(paramInt, 1.0F - paramFloat);
+			if (position > -1) {
+				selectTwoItem(position, position + 1);
+				setItemAlpha(position + 1, alpha);
+				setItemAlpha(position, 1.0F - alpha);
 			}
-		while ((paramViewPagerDirection != ViewPagerDirection.RIGHT) || (paramInt + 1 >= this.mButtons.size()))
+		while ((paramViewPagerDirection != ViewPagerDirection.RIGHT) || (position + 1 >= this.mButtons.size()))
 			return;
-		selectTwoItem(paramInt, paramInt + 1);
-		setItemAlpha(paramInt + 1, paramFloat);
-		setItemAlpha(paramInt, 1.0F - paramFloat);
+		selectTwoItem(position, position + 1);
+		setItemAlpha(position + 1, alpha);
+		setItemAlpha(position, 1.0F - alpha);
 	}
 
-	public void selectItem(int paramInt) {
-		if (paramInt < this.mButtons.size())
+	/**
+	 * 设置选中位置的图标显示
+	 * 
+	 * @param position
+	 *            选中的位置
+	 */
+	public void selectItem(int position) {
+		if (position < this.mButtons.size())
 			;
 		for (int i = 0;; i++) {
 			if (i >= this.mButtons.size()) {
-				((Button) this.mButtons.get(paramInt)).setSelected(true);
+				((Button) this.mButtons.get(position)).setSelected(true);
 				return;
 			}
 			((Button) this.mButtons.get(i)).setSelected(false);
@@ -135,13 +159,6 @@ public class TabMenuView extends LinearLayout {
 		}
 	}
 
-	public void setAllItemAlpha(float paramFloat) {
-		for (int i = 0;; i++) {
-			if (i >= this.mButtons.size())
-				return;
-			((Button) this.mButtons.get(i)).setAlpha(paramFloat);
-		}
-	}
 
 	public void setOnTabMenuViewItemSelectedListener(OnJazzyViewPagerItemSelectedListener paramOnJazzyViewPagerItemSelectedListener) {
 		this.listener = paramOnJazzyViewPagerItemSelectedListener;
@@ -162,17 +179,6 @@ public class TabMenuView extends LinearLayout {
 					}
 					break;
 				}
-				// if (j >= TabMenuView.this.mButtons.size())
-				// ;
-				// do {
-				// return;
-				// if (i != ((Integer) ((Button) TabMenuView.this.mButtons
-				// .get(j)).getTag()).intValue())
-				// break;
-				// TabMenuView.this.selectItem(j);
-				// } while (TabMenuView.this.listener == null);
-				// TabMenuView.this.listener.onItemSelected(j);
-				// return;
 			}
 		}
 	}

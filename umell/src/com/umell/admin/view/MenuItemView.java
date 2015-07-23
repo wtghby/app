@@ -11,6 +11,12 @@ import android.view.Gravity;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * 页面上每个功能选项的view
+ * 
+ * @author hui
+ * 
+ */
 public class MenuItemView extends RelativeLayout {
 	private TextView mText;
 
