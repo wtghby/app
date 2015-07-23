@@ -2,6 +2,7 @@
 bin
 gen
 out
+.classpath
 
 # Package Files #
 #*.jar
