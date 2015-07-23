@@ -3,6 +3,7 @@ bin
 gen
 out
 .classpath
+.settings
 
 # Package Files #
 #*.jar

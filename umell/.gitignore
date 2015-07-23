@@ -4,6 +4,8 @@ gen
 out
 
 .classpath
+.settings
+
 # Package Files #
 #*.jar
 *.war
